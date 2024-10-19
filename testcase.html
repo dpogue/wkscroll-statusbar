@@ -1,16 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover" />
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+        <meta name="theme-color" content="#ff0000">
         <title>WebKit Test Case</title>
         <style>
         body {
             padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
         }
+
+        div {
+            margin: 1em 0;
+        }
         </style>
     </head>
     <body>
         Hello World
+
+        <div>
+            <button id="toggle">Toggle Safe Area</button>
+        </div>
+
+        <div>
+            <input id="picker" type="color" value="#ff0000">
+        </div>
+
+        <script>
+            const vp = document.querySelector(`meta[name="viewport"]`);
+            document.getElementById("toggle").addEventListener("click", (e) => {
+                const attr = vp.getAttribute("content");
+                console.log(attr);
+
+                if (attr.includes("cover")) {
+                    vp.setAttribute("content", attr.replace("cover", "auto"));
+                } else {
+                    vp.setAttribute("content", attr.replace("auto", "cover"));
+                }
+            });
+
+            document.getElementById("picker").addEventListener("change", (e) => {
+                document.querySelector(`meta[name="theme-color"]`).setAttribute("content", e.target.value);
+            });
+        </script>
     </body>
 </html>
